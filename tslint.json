@@ -1,0 +1,80 @@
+{
+  "extends": [
+      "tslint:latest",
+      "tslint-react"
+  ],
+  "rules": {
+      "class-name": true,
+      "comment-format": [true, "check-space"],
+      "curly": [true, "ignore-same-line"],
+      "indent": [true, "spaces", 2],
+      "max-line-length": [true, 150],
+      "ordered-imports": false,
+      "object-literal-sort-keys": false,
+      "object-literal-shorthand": false,
+      // "no-console": [true, "debug", "info", "log", "time", "timeEnd", "trace"],
+      "no-console": false,
+      "no-duplicate-variable": true,
+      "no-eval":true,
+      "no-internal-module": true,
+      "no-trailing-whitespace": true,
+      "no-unsafe-finally": true,
+      "no-var-keyword": true,
+      "no-parameter-reassignment": true,
+      "no-empty": [false, "allow-empty-catch"],
+      "no-empty-interface":false,
+      "no-unused-expression": false,
+      "no-object-literal-type-assertion": false,
+      "no-implicit-dependencies": false,
+      "no-submodule-imports": false,
+      "no-shadowed-variable": false,
+      "member-access": false,
+      "member-ordering": false,
+      "one-line": [
+          true,
+          "check-catch",
+          "check-else",
+          "check-finally",
+          "check-open-brace",
+          "check-whitespace"
+      ],
+      "quotemark": [true, "single", "jsx-double"],
+      "semicolon": [true, "always"],
+      "triple-equals": [true, "allow-null-check"],
+      "typedef-whitespace": [
+          true,
+          {
+              "call-signature": "nospace",
+              "index-signature": "nospace",
+              "parameter": "nospace",
+              "property-declaration": "nospace",
+              "variable-declaration": "nospace"
+          }
+      ],
+      "trailing-comma": [
+          true,
+          {
+            "singleline": "never",
+            "multiline": "always"
+          }
+        ],
+      "variable-name": [true, "ban-keywords"],
+      "whitespace": [
+          true,
+          "check-branch",
+          "check-decl",
+          "check-operator",
+          "check-separator",
+          "check-type"
+      ],
+      "interface-name": [true, "always-prefix"],
+      "jsx-wrap-multiline": false,
+      "jsx-no-multiline-js": false,
+      "jsx-no-lambda": false,
+      "jsx-boolean-value": [true, "never"],
+      "jsx-alignment": false,
+      "jsdoc-format": [false, "check-multiline-start"],
+      "arrow-parens": false,
+      "max-classes-per-file": false
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": { "*": ["types/*"] },
+      "module": "commonjs",
+      "target": "es2015",
+      "moduleResolution": "node",
+      "noUnusedLocals": true,
+      "skipLibCheck": true,
+      "jsx": "react-native",
+      "noImplicitAny": false, // 在表达式和声明上有隐含的 any类型时报错
+      "experimentalDecorators": true, // 启用实验性的ES装饰器
+      "preserveConstEnums": true,
+      "allowSyntheticDefaultImports": true,
+      "allowJs": true,
+      "sourceMap": true,
+      "noEmit": false,  // 不生成输出文件
+      "outDir": "build/app",
+      "lib": [
+        "es2017"
+      ]
+  },
+  "include": [
+      "app/**/*.ts",
+      "app/**/*.tsx"
+  ],
+  "exclude": [
+      "index.js",
+      "build",
+      "node_modules"
+  ]
+}

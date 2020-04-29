@@ -1,0 +1,92 @@
+# OSX
+#
+.DS_Store
+
+# Xcode
+#
+build/
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata
+*.xccheckout
+*.moved-aside
+DerivedData
+*.hmap
+*.ipa
+*.xcuserstate
+
+# Android/IntelliJ
+#
+build/
+.idea
+.gradle
+local.properties
+*.iml
+
+# node.js
+#
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# BUCK
+buck-out/
+\.buckd/
+*.keystore
+!debug.keystore
+
+# fastlane
+#
+# It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
+# screenshots whenever they are needed.
+# For more information about the recommended setup visit:
+# https://docs.fastlane.tools/best-practices/source-control/
+
+*/fastlane/report.xml
+*/fastlane/Preview.html
+*/fastlane/screenshots
+
+# Bundle artifact
+*.jsbundle
+
+# CocoaPods
+/ios/Pods/
+
+# fir
+fir_build/
+
+android/app/src/main/res/drawable-mdpi/
+android/app/src/main/res/drawable-xhdpi/
+android/app/src/main/res/drawable-xxhdpi/
+android/app/src/main/res/drawable-xxxhdpi/
+android/app/src/main/res/raw/
+android/app/src/main/res/assets/
+
+ios/main.jsbundle
+ios/main.jsbundle.meta
+android/app/src/main/assets/index.android.bundle
+android/app/src/main/assets/index.android.bundle.meta
+
+package-lock.json
+.vscode/settings.json
+
+# node.js
+node_modules/
+# !node_modules/react-native-camera/
+# !node_modules/react-native-contacts-tt/
+# !node_modules/react-native-linear-gradient-tt/
+# !node_modules/react-native-vector-icons/
+# !node_modules/react-native-code-push/
+# !node_modules/react-native-spinkit/
+# !node_modules/react-native-picker/
+# !node_modules/react-native-image-picker/
+# !node_modules/react-native/
+
+npm-debug.log
+yarn-error.log
