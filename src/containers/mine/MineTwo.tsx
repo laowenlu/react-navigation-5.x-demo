@@ -20,6 +20,36 @@ function MineTwo() {
           navigationHelper.popToTop();
         }}
       />
+      <Button
+        title={'reset test'}
+        onPress={() => {
+          navigationHelper.reset('test');
+        }}
+      />
+      <Button
+        title={'reset home'}
+        onPress={() => {
+          navigationHelper.reset('index');
+        }}
+      />
+      <Button
+        title={'navigate mine'}
+        onPress={() => {
+          navigationHelper.navigate('mine');
+        }}
+      />
+      <Button
+        title={'goback'}
+        onPress={() => {
+          navigationHelper.goBack();
+        }}
+      />
+      <Button
+        title={'popTo index'}
+        onPress={() => {
+          navigationHelper.popTo('index');
+        }}
+      />
     </View>
   );
 }

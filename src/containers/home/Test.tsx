@@ -1,9 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import { Button } from '../../components';
+import { Button, TitleButton } from '../../components';
 import navigationHelper from '../../navigation/navigationHelper';
 
-function Test() {
+function Test({ navigation, route }) {
+
+  navigation.setOptions({
+    headerRight: _props => (
+      <TitleButton
+        titleStyle={{ fontSize: px2dp(32), color: '#fff' }}
+        showArrow={false}
+        title={'协议'}
+        onPress={() => {
+          navigationHelper.push('setting');
+        }}
+        {..._props}
+      />
+    ),
+  });
 
   return (
     <View style={styles.container}>

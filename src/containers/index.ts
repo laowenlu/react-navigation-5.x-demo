@@ -1,6 +1,5 @@
-import { ImageSourcePropType } from 'react-native';
-import { NavigationStackProp, NavigationStackOptions } from 'react-navigation-stack';
-import { NavigationRouteConfig, NavigationParams, NavigationRoute, NavigationRouteConfigMap } from 'react-navigation';
+import { CardStyleInterpolators } from '@react-navigation/stack';
+import { StackHeaderOptions, TransitionPreset, StackNavigationOptions } from '@react-navigation/stack/lib/typescript/src/types';
 
 import HomeIndex from './home/HomeIndex';
 import SocialIndex from './social/SocialIndex';
@@ -11,13 +10,42 @@ import MineTwo from './mine/MineTwo';
 import Login from './social/Login';
 import Test from './home/Test';
 
-export interface ITabRouteMap {
-  [routeKey: string]: NavigationRouteConfig<any, any> & {
-    tabName: string;
-    activeIcon?: ImageSourcePropType;
-    inActiveIcon?: ImageSourcePropType;
-  };
+export interface IRouteMap {
+  name: string;
+  component: React.ReactNode;
+  options?: StackHeaderOptions | TransitionPreset | StackNavigationOptions;
+  [key: string]: any;
 }
+
+const routersConfig: IRouteMap[] = [
+  {
+    name: 'login',
+    component: Login,
+    options: {
+      header: () => null,
+      // headerShown: false,
+      cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+    },
+  },
+  {
+    name: 'test',
+    component: Test,
+    options: {
+      headerTitle: 'Test',
+      headerTitleStyle: { color: '#f00' },
+    },
+  },
+  {
+    name: 'setting',
+    component: Setting,
+    options: { headerTitle: '设置中心' },
+  },
+  {
+    name: 'mineTwo',
+    component: MineTwo,
+    options: { headerTitle: 'MineTwo' },
+  },
+];
 
 // tabbar
 const tabScreens = {
@@ -26,35 +54,7 @@ const tabScreens = {
   mine: MineIndex,
 };
 
-const routers: NavigationRouteConfigMap<NavigationStackOptions,
-  NavigationStackProp<NavigationRoute<NavigationParams>, any>, unknown> = {
-  login: {
-    screen: Login,
-    navigationOptions: {
-      header: null,
-    },
-  },
-  test: {
-    screen: Test,
-    navigationOptions: {
-      title: 'Test',
-    },
-  },
-  setting: {
-    screen: Setting,
-    navigationOptions: {
-      title: '设置中心',
-    },
-  },
-  mineTwo: {
-    screen: MineTwo,
-    navigationOptions: {
-      title: 'MineTwo',
-    },
-  },
-};
-
 export {
-  routers,
+  routersConfig,
   tabScreens,
 };

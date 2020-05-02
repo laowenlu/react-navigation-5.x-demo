@@ -17,6 +17,8 @@ class Login extends PureComponent<any, any> {
             navigationHelper.pop();
           }}
         />
+        <Text style={{ left: 0, top: 0, position: 'absolute' }}>顶部文字</Text>
+        <Text style={{ left: 0, bottom: 0, position: 'absolute' }}>底部文字</Text>
       </View>
     );
   }

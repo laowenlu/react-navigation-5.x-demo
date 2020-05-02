@@ -1,18 +1,44 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { NavigationState, NavigationScreenProp } from 'react-navigation';
+import { StyleSheet, View, Text } from 'react-native';
 import { TitleButton, Button } from '../../components';
 import navigationHelper from '../../navigation/navigationHelper';
 
-MineIndex.navigationOptions = ({ navigation }: { navigation: NavigationScreenProp<NavigationState> }) => {
-  const _title = navigation.getParam('title');
-  return _title ? { headerTitle: _title } : {};
-};
+function MineIndex({ navigation, route }) {
+  console.log('-------======');
+  console.log(navigation);
 
-function MineIndex(props) {
+  // tab页的导航栏参数不能这样动态设置
+  // navigation.setOptions({
+  //   headerRight: _props => (
+  //     <TitleButton
+  //       titleStyle={{ fontSize: px2dp(32), color: '#fff' }}
+  //       showArrow={false}
+  //       title={'设置'}
+  //       onPress={() => {
+  //         navigationHelper.push('setting', { myKey: 'myValue' });
+  //       }}
+  //       {..._props}
+  //     />
+  //   ),
+  // });
 
   useEffect(() => {
     console.log('------------ MineIndex');
+
+    // 可以这样设置导航栏右边按钮
+    const _headerRight = _props => (
+      <TitleButton
+        titleStyle={{ fontSize: px2dp(32), color: '#fff' }}
+        showArrow={false}
+        title={'设置'}
+        onPress={() => {
+          navigationHelper.push('setting', { myKey: 'myValue' });
+        }}
+        {..._props}
+      />
+    );
+    navigationHelper.setParams({ headerRight: _headerRight });
+
   }, []);
 
   return (
@@ -29,6 +55,8 @@ function MineIndex(props) {
           navigationHelper.push('setting', { myKey: 'myValue' });
         }}
       />
+      <Text style={{ left: 0, top: 0, position: 'absolute' }}>顶部文字</Text>
+      <Text style={{ left: 0, bottom: 0, position: 'absolute' }}>底部文字</Text>
     </View>
   );
 }

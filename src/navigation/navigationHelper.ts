@@ -1,15 +1,12 @@
 import {
-  NavigationActions, StackActions,
-  NavigationParams, NavigationNavigateAction,
-  NavigationNavigateActionPayload,
-  NavigationAction,
-  NavigationContainer,
-  NavigationDispatch,
-} from 'react-navigation';
+  CommonActions,
+  StackActions,
+  NavigationContainerRef,
+} from '@react-navigation/native';
 import { Keyboard, ToastAndroid, BackHandler, Platform } from 'react-native';
 
 class NavigationHelper {
-  navigator: NavigationContainer & { dispatch?: NavigationDispatch };
+  navigator: NavigationContainerRef;
   private _pushing: boolean;
   private _backTwice: boolean;
   private _backActionMap: {
@@ -22,7 +19,7 @@ class NavigationHelper {
     this._backActionMap = {};
   }
 
-  setNavigator(ref: NavigationContainer) {
+  setNavigator(ref: any) {
     this.navigator = ref;
   }
 
@@ -30,19 +27,29 @@ class NavigationHelper {
    * 导航到另一条路由
    * @param options
    */
-  navigate = (options: NavigationNavigateActionPayload) => {
+  navigate = (name: string, params?: any) => {
     const { dispatch } = this.navigator;
-    dispatch(NavigationActions.navigate(options));
+    dispatch(CommonActions.navigate({ name, params }));
   }
 
   /**
-   * 返回指定key的路由或上一个路由
-   * @param key
+   * 重置路由
+   * @param routeName 如果不指定,默认重置回首页, routeName可以是栈中的路由也可以是新的, reset会重新创建该页面
+   * @param params 设置参数
    */
-  back = (key?: string | null, immediate?: boolean) => {
+  reset = (routeName: string = 'index', params?: any) => {
+    this.navigator.reset({
+      index: 0,
+      routes: [{ name: routeName, params: params }],
+    });
+  }
+
+  /**
+   * 返回上一个路由
+   */
+  goBack = () => {
     Keyboard.dismiss();
-    const { dispatch } = this.navigator;
-    dispatch(NavigationActions.back({ key, immediate }));
+    if (this.navigator.canGoBack) this.navigator.goBack();
   }
 
   /**
@@ -50,25 +57,19 @@ class NavigationHelper {
    * @param key
    * @param params
    */
-  setKeyParams = (key: string, params: NavigationParams) => {
-    const { dispatch } = this.navigator;
-    dispatch(NavigationActions.setParams({ key, params }));
+  setParams = (params: any) => {
+    this.navigator.setParams(params);
   }
 
   /**
-   * 给当前路由设置参数
-   * @param params 设置参数
+   * 替换指定路由
+   * @param routeName
+   * @param params
+   * @param action
    */
-  setParams = (params: NavigationParams) => {
-    const { state } = this.navigator;
-    const { index, routes } = state.nav;
-    let key = routes[index].key;
-    const subRoutes = routes[index].routes;
-    if (subRoutes) {
-      const subIndex = routes[index].index;
-      key = subRoutes[subIndex].key;
-    }
-    this.setKeyParams(key, params);
+  replace = (routeName: string, params?: any) => {
+    const { dispatch } = this.navigator;
+    dispatch(StackActions.replace(routeName, params));
   }
 
   /**
@@ -79,49 +80,12 @@ class NavigationHelper {
    * @memberof Navigation
    */
   getParams = <T = any>() => {
-    let params: T = {} as T;
-    const { routes } = this.navigator.state.nav;
+    let params;
+    const { routes } = this.navigator.getRootState();
     if (routes && routes.length > 0) {
-      params = routes[routes.length - 1].params as T;
+      params = routes[routes.length - 1].params;
     }
-    return params;
-  }
-
-  /**
-   * 重置路由
-   * @param routeName 如果不指定,默认重置回首页, routeName可以是栈中的路由也可以是新的, reset会重新创建该页面
-   * @param params 设置参数
-   */
-  reset = (routeName: string = 'index', params?: NavigationParams) => {
-    const options = {
-      routeName: routeName,
-      params: params,
-    };
-
-    const routes = routeName.split('/');
-    if (routes.length === 2) {
-      options.routeName = routes[0];
-      options['action'] = NavigationActions.navigate({
-        routeName: routes[1],
-      });
-    }
-
-    const { dispatch } = this.navigator;
-    dispatch(StackActions.reset({
-      index: 0,
-      actions: [NavigationActions.navigate(options)],
-    }));
-  }
-
-  /**
-   * 替换指定路由
-   * @param routeName
-   * @param params
-   * @param action
-   */
-  replace = (routeName: string, params?: NavigationParams, action?: NavigationAction) => {
-    const { dispatch } = this.navigator;
-    dispatch(StackActions.replace({ routeName, params, action }));
+    return params as T;
   }
 
   /**
@@ -130,7 +94,7 @@ class NavigationHelper {
    * @param params
    * @param action
    */
-  push = (routeName: string, params?: NavigationParams, action?: NavigationNavigateAction) => {
+  push = (routeName: string, params?: any) => {
     if (typeof routeName !== 'string') return;
 
     if (!this._pushing) {
@@ -141,26 +105,26 @@ class NavigationHelper {
       }, 500);
       Keyboard.dismiss();
       const { dispatch } = this.navigator;
-      dispatch(StackActions.push({ routeName, params, action }));
+      dispatch(StackActions.push(routeName, params));
     }
   }
 
   /**
    * pop退回前n个页面
    */
-  pop = (n: number = 1, params?: { immediate?: boolean }) => {
+  pop = (n: number = 1) => {
     Keyboard.dismiss();
     const { dispatch } = this.navigator;
-    dispatch(StackActions.pop({ n, immediate: params && params.immediate }));
+    dispatch(StackActions.pop(n));
   }
 
   /**
    * 退回路由顶层
    * @param {{ immediate?: boolean }} [params]
    */
-  popToTop = (params?: { immediate?: boolean }) => {
+  popToTop = () => {
     const { dispatch } = this.navigator;
-    dispatch(StackActions.popToTop({ immediate: params && params.immediate }));
+    dispatch(StackActions.popToTop());
   }
 
   /**
@@ -169,21 +133,21 @@ class NavigationHelper {
    * @param {*} [params]
    * @memberof Navigation
    */
-  popTo = (routeName: string = 'index', params?: any) => {
-    const { state } = this.navigator;
-    const { index, routes } = state.nav;
+  popTo = (routeName: string = 'index') => {
+    const { index, routes } = this.navigator.getRootState();
     let popNumber;
     for (let i = 0; i < routes.length; i++) {
       const route = routes[i];
-      if (route.routeName === routeName) {
+      if (route.name === routeName) {
         popNumber = index - i;
         break;
       }
     }
     if (popNumber) {
-      this.pop(popNumber, params);
+      this.pop(popNumber);
     } else {
       console.warn(`堆栈中没有 ${routeName} 页面`);
+      this.navigate(routeName);
     }
   }
 
@@ -192,8 +156,8 @@ class NavigationHelper {
    * @param {() => void} action
    */
   backHandle = (action: () => void) => {
-    const { index, routes } = this.navigator.state.nav;
-    const routeName = routes[index].routeName;
+    const { index, routes } = this.navigator.getRootState();
+    const routeName = routes[index].name;
     this._backActionMap[routeName] = action;
   }
 
@@ -202,8 +166,8 @@ class NavigationHelper {
    * @returns {boolean}
    */
   backAction = (): boolean => {
-    const { index, routes } = this.navigator.state.nav;
-    const routeName = routes[routes.length - 1].routeName;
+    const { index, routes } = this.navigator.getRootState();
+    const routeName = routes[routes.length - 1].name;
 
     if (index !== 0) {  // 非最顶层
       if (this._backActionMap[routeName] instanceof Function) {

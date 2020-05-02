@@ -75,6 +75,7 @@
       "jsx-alignment": false,
       "jsdoc-format": [false, "check-multiline-start"],
       "arrow-parens": false,
-      "max-classes-per-file": false
+      "max-classes-per-file": false,
+      "no-string-literal": false
   }
 }

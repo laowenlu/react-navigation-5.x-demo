@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import { View, StatusBar } from 'react-native';
 import AppNavigator from './navigation/AppNavigator';
+import 'react-native-gesture-handler';
+import { width } from './styles/size';
 
 const _dev = __DEV__;
 
@@ -23,7 +25,7 @@ class App extends PureComponent<any, any> {
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, width: width }}>
         <StatusBar
           translucent
           backgroundColor={'transparent'}

@@ -2,8 +2,22 @@ import React, { useEffect } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { Button } from '../../components';
 import navigationHelper from '../../navigation/navigationHelper';
+import { HeaderBackButton } from '@react-navigation/stack';
 
-function Setting(props) {
+function Setting({ navigation, route }) {
+
+  // 修改导航栏内容
+  // navigation.setOptions({
+  //   headerRight: props => (
+  //     <HeaderBackButton
+  //       {...props}
+  //       onPress={() => {
+  //         alert('不能再返回了！');
+  //       }}
+  //     />
+  //   ),
+  // });
+
   useEffect(() => {
     navigationHelper.backHandle(() => {
       alert('不给退出,请点下面退出按钮');
@@ -17,9 +31,9 @@ function Setting(props) {
         onPress={() => {
           navigationHelper.pop();
         }} />
-      <Button title={'reset mineIndex'}
+      <Button title={'返回 mineIndex tab'}
         onPress={() => {
-          navigationHelper.reset('index/mine');
+          navigationHelper.navigate('mine');
         }} />
       <Button title={'push test'}
         onPress={() => {
